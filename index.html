@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        /* bodyとhtmlの基本設定 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden; /* 横スクロールバーを隠す */
+        }
+
+        body {
+            position: relative; /* 子要素の位置指定の基準にする */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+        }
+
+        /* 背景画像用の擬似要素を作成 */
+        body::before {
+            content: ""; /* 必須 */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%; /* 画面幅の2倍のサイズを確保 */
+            height: 100%;
+            z-index: -1; /* カウントダウン文字の背面に配置 */
+            background-image: url("https://media.discordapp.net/attachments/988083080889778236/1392394008344395916/sky.png?ex=686f5f79&is=686e0df9&hm=5a4ce7d189aebd07529eadd334f206eee83dde19dcda55b9a8d034d6325fedbf&=&format=webp&quality=lossless&width=2544&height=1280");
+            background-size: 50% 100%;
+            background-repeat: repeat-x;
+            filter: blur(5px); /* ぼかし効果 */
+            animation: scroll-left 30s linear infinite;
+        }
+
+        /* スクロールアニメーションの定義 */
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ロゴとタイマーをまとめるコンテナ */
+        #main-container {
+            display: flex;
+            flex-direction: column; /* 要素を縦に並べる */
+            align-items: center;    /* 中央揃え */
+        }
+
+        /* ロゴ画像のスタイル */
+        #logo {
+            height: 300px; /* ロゴの高さ */
+            margin-bottom: 20px;
+            transition: transform 0.3s ease; /* 変化を滑らかにする設定 */
+            cursor: pointer; /* カーソルをポインターに */
+            scale: 1.5;
+        }
+
+        /* ロゴにカーソルが乗った時のスタイル */
+        #logo:hover {
+            transform: scale(1.1); /* 1.1倍に拡大 */
+        }
+
+        /* カウントダウンタイマーのスタイル */
+        #countdown {
+            font-size: 7em;
+            font-weight: bold; /* ← ここを変更しました */
+            color: white;
+            text-shadow:
+                -2px -2px 0 #000,
+                 2px -2px 0 #000,
+                -2px  2px 0 #000,
+                 2px  2px 0 #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-container">
+        <a href="https://gamebanana.com/mods/545028" target="_blank" rel="noopener noreferrer">
+            <img id="logo" src="https://media.discordapp.net/attachments/988083080889778236/1335623858866229268/254_20240928170036.png?ex=686f2ae6&is=686dd966&hm=e0907e198b27715e34dc1bcaa371d1d714093b0f327b5048cbca0138d7bcd35e&=&format=webp&quality=lossless&width=1488&height=1488" alt="Logo">
+        </a>
+        <div id="countdown"></div>
+    </div>
+
+    <script>
+        const countdownElement = document.getElementById("countdown");
+        const targetDate = new Date("2025-07-16T00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                countdownElement.innerHTML = "00:00:00:00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const formattedDays = String(days).padStart(2, '0');
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+
+            countdownElement.innerHTML =
+                `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        updateCountdown();
+
+        const interval = setInterval(updateCountdown, 1000);
+    </script>
+
+</body>
+</html>
