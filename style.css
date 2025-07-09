@@ -1,0 +1,69 @@
+/* bodyとhtmlの基本設定 */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden; /* 横スクロールバーを隠す */
+}
+
+body {
+    position: relative; /* 子要素の位置指定の基準にする */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+/* 背景画像用の擬似要素を作成 */
+body::before {
+    content: ""; /* 必須 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%; /* 画面幅の2倍のサイズを確保 */
+    height: 100%;
+    z-index: -1; /* カウントダウン文字の背面に配置 */
+    background-image: url("https://media.discordapp.net/attachments/988083080889778236/1392394008344395916/sky.png?ex=686f5f79&is=686e0df9&hm=5a4ce7d189aebd07529eadd334f206eee83dde19dcda55b9a8d034d6325fedbf&=&format=webp&quality=lossless&width=2544&height=1280");
+    background-size: 50% 100%;
+    background-repeat: repeat-x;
+    filter: blur(5px); /* ぼかし効果 */
+    animation: scroll-left 30s linear infinite;
+}
+
+/* スクロールアニメーションの定義 */
+@keyframes scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* ロゴとタイマーをまとめるコンテナ */
+#main-container {
+    display: flex;
+    flex-direction: column; /* 要素を縦に並べる */
+    align-items: center;    /* 中央揃え */
+}
+
+/* ロゴ画像のスタイル */
+#logo {
+    height: 300px; /* ロゴの高さ */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease; /* 変化を滑らかにする設定 */
+    cursor: pointer; /* カーソルをポインターに */
+    scale: 1.5;
+}
+
+/* ロゴにカーソルが乗った時のスタイル */
+#logo:hover {
+    transform: scale(1.1); /* 1.1倍に拡大 */
+}
+
+/* カウントダウンタイマーのスタイル */
+#countdown {
+    font-size: 7em;
+    font-weight: bold;
+    color: white;
+    text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
+}
